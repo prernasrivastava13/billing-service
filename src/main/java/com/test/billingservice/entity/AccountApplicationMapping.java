@@ -18,8 +18,7 @@ import java.util.Date;
 public class AccountApplicationMapping {
 
   @Id
-  @OneToOne
-  @JoinColumn(name = "id")
+  @Column(name = "id")
   private int id;
 
   //  @Id

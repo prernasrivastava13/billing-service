@@ -19,7 +19,7 @@ public class AccountApplicationUsageLimits {
   @Column(name = "id")
   private int id;
 
-  @OneToOne(mappedBy = "id")
+  @OneToOne
   @JoinColumn(name = "account_application_mapping")
   private AccountApplicationMapping accountApplicationMapping;
 

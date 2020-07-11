@@ -17,8 +17,8 @@ public interface AccountApplicationMappingRepository
       int accountId, int applicationId);
 
   @Query(
-      "SELECT account_application_mapping.account_id,account_application_mapping.application_id,account_application_usage_limits.account_application_mapping\n"
-          + "FROM account_application_mapping\n"
-          + "INNER JOIN account_application_usage_limits ON account_application_mapping.id=account_application_usage_limits.account_application_mapping")
+      value="SELECT *\n"
+              + "FROM account_application_mapping\n"
+              + "INNER JOIN account_application_usage_limits ON account_application_mapping.id=account_application_usage_limits.account_application_mapping",nativeQuery=true)
   public List<AccountApplicationMapping> findAccountApplicationMappingByJoin();
 }
