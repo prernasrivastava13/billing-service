@@ -3,9 +3,13 @@ package com.test.billingservice.controller;
 import com.test.billingservice.entity.OutputMedia;
 import com.test.billingservice.service.OutputMediaService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.annotation.Resource;
+import java.net.URI;
 import java.util.List;
 
 @Slf4j
@@ -16,42 +20,52 @@ public class OutputMediaController {
   @Resource OutputMediaService outputMediaService;
 
   @PostMapping("/create")
-  public OutputMedia createOutputMedia(@RequestBody OutputMedia outputMedia) {
+  public ResponseEntity<OutputMedia> createOutputMedia(@RequestBody OutputMedia outputMedia) {
     OutputMedia createdOutputMedia = outputMediaService.createOutputMedia(outputMedia);
-    return createdOutputMedia;
+    if (createdOutputMedia == null) {
+      ResponseEntity.badRequest().build();
+    }
+    URI uri =
+        ServletUriComponentsBuilder.fromCurrentRequest()
+            .path("/{outputMediaId}")
+            .buildAndExpand(createdOutputMedia.getId())
+            .toUri();
+    return ResponseEntity.created(uri).body(createdOutputMedia);
   }
 
   @GetMapping("/view/byAccountId/{accountId}")
-  public List<OutputMedia> getOutputMediaByAccountId(@PathVariable int accountId) {
-    return outputMediaService.getOutputMediaByAccountId(accountId);
+  public ResponseEntity<List<OutputMedia>> getOutputMediaByAccountId(@PathVariable int accountId) {
+    List<OutputMedia> outputMediaList = outputMediaService.getOutputMediaByAccountId(accountId);
+    return CollectionUtils.isEmpty(outputMediaList)
+        ? ResponseEntity.notFound().build()
+        : ResponseEntity.ok(outputMediaList);
   }
 
   @GetMapping("/view/byApi/{api}")
-  public List<OutputMedia> getOutputMediaByApi(@PathVariable String api) {
-    return outputMediaService.getOutputMediaByApi(api);
+  public ResponseEntity<List<OutputMedia>> getOutputMediaByApi(@PathVariable String api) {
+    List<OutputMedia> outputMediaList = outputMediaService.getOutputMediaByApi(api);
+    return CollectionUtils.isEmpty(outputMediaList)
+        ? ResponseEntity.notFound().build()
+        : ResponseEntity.ok(outputMediaList);
   }
 
   @GetMapping("/view/byApplicationId/{applicationId}")
-  public List<OutputMedia> getOutputMediaByApplicationid() {
-    List<OutputMedia> outputMediaList = outputMediaService.getOutputMediaList();
-    if (!outputMediaList.isEmpty()) return outputMediaList;
-    log.info("Output Media List empty");
-    return null;
+  public ResponseEntity<List<OutputMedia>> getOutputMediaByApplicationid(
+      @PathVariable int applicationId) {
+    List<OutputMedia> outputMediaList =
+        outputMediaService.getOutputMediaByApplicationId(applicationId);
+    return CollectionUtils.isEmpty(outputMediaList)
+        ? ResponseEntity.notFound().build()
+        : ResponseEntity.ok(outputMediaList);
   }
 
   @GetMapping("/view/byCreditsConsumed/{minCreditsConsumed}/{maxCreditsConsumed}")
-  public List<OutputMedia> getOutputMediaByCreditsConsumed() {
-    List<OutputMedia> outputMediaList = outputMediaService.getOutputMediaList();
-    if (!outputMediaList.isEmpty()) return outputMediaList;
-    log.info("Output Media List empty");
-    return null;
-  }
-
-  @GetMapping("/view/bySize/{size}")
-  public List<OutputMedia> getOutputMediaBySize() {
-    List<OutputMedia> outputMediaList = outputMediaService.getOutputMediaList();
-    if (!outputMediaList.isEmpty()) return outputMediaList;
-    log.info("Output Media List empty");
-    return null;
+  public ResponseEntity<List<OutputMedia>> getOutputMediaByCreditsConsumed(
+      @PathVariable int minCreditsConsumed, @PathVariable int maxCreditsConsumed) {
+    List<OutputMedia> outputMediaList =
+        outputMediaService.getOutputMediaByCreditConsumed(minCreditsConsumed, maxCreditsConsumed);
+    return CollectionUtils.isEmpty(outputMediaList)
+        ? ResponseEntity.notFound().build()
+        : ResponseEntity.ok(outputMediaList);
   }
 }

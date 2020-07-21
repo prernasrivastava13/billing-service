@@ -36,6 +36,7 @@ public class AccountsServiceImpl implements AccountsService {
       log.info("Error creating Account Application mapping!");
     }
     log.info("Error creating account");
-    throw new RuntimeException("Error creating account");
+    return null;
+    //    throw new RuntimeException("Error creating account");
   }
 }

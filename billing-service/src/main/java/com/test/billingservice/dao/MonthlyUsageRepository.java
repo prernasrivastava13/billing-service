@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MonthlyUsageRepository
-    extends JpaRepository<MonthlyUsage, Integer>, QuerydslPredicateExecutor<MonthlyUsage> {}
+    extends JpaRepository<MonthlyUsage, Integer>, QuerydslPredicateExecutor<MonthlyUsage> {
+
+  //  public MonthlyUsage findByAccountIdAndMonth(int accountId, String month);
+}

@@ -4,7 +4,9 @@ import com.test.billingservice.entity.MonthlyUsage;
 
 public interface MonthlyUsageService {
 
-  public MonthlyUsage createMonthlyUsage(MonthlyUsage monthlyUsage);
+  public MonthlyUsage createMonthlyUsage(String month);
 
-  public MonthlyUsage updateMonthlyUsage(MonthlyUsage monthlyUsage);
+  public MonthlyUsage findByAccountIdAndMonth(int accountId, String month);
+
+  public MonthlyUsage saveMonthlyUsage(MonthlyUsage monthlyUsage);
 }

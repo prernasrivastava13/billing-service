@@ -16,12 +16,12 @@ import java.net.URI;
 
 @Slf4j
 @RestController
-@RequestMapping("/billingService")
+@RequestMapping("/billingService/accounts")
 public class AccountsController {
 
   @Autowired @Resource private AccountsService accountsService;
 
-  @PostMapping("/accounts")
+  @PostMapping("/create")
   public ResponseEntity<Accounts> createAccounts(@RequestBody Accounts accounts) {
     Accounts createdAccounts = accountsService.createAccounts(accounts);
     if (createdAccounts == null) {

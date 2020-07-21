@@ -10,5 +10,5 @@ public interface CreditInformationRepository
     extends JpaRepository<CreditInformation, Integer>,
         QuerydslPredicateExecutor<CreditInformation> {
 
-  public CreditInformation getByApplicationId(int applicationId);
+//  public CreditInformation getByApplicationId(int applicationId);
 }

@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS invoices
     month            varchar(100),
     invoice_number   int,
     invoice_media_id int,
-    invoice_status   int,
+    invoice_status   boolean default false,
     created_at       datetime DEFAULT CURRENT_TIMESTAMP,
     updated_at       datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )
@@ -110,10 +110,10 @@ CREATE TABLE IF NOT EXISTS account_application_mapping
     id             int AUTO_INCREMENT PRIMARY KEY,
     account_id     int,
     application_id int,
-    active         boolean,
+    active         boolean default true,
     created_at     datetime DEFAULT CURRENT_TIMESTAMP,
     updated_at     datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    credit_limit   int,
+    credit_limit   int default 0,
 
 #     PRIMARY KEY (account_id, application_id),
 
@@ -131,17 +131,14 @@ CREATE TABLE IF NOT EXISTS account_application_usage_limits
 
     id                          int AUTO_INCREMENT PRIMARY KEY,
     account_application_mapping int,
-#     application_id int,
-#     account_id     int,
     month                       varchar(100),
     created_at                  datetime DEFAULT CURRENT_TIMESTAMP,
     updated_at                  datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    credit_used                 int,
+    credit_used                 int default 0,
 
     CONSTRAINT FK_account_application_mapping FOREIGN KEY (account_application_mapping)
         REFERENCES account_application_mapping (id)
 
-#     CONSTRAINT FK_account_application_mapping FOREIGN KEY (application_id, account_id) REFERENCES account_application_mapping (application_id, account_id)
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = UTF8;

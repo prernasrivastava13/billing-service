@@ -6,5 +6,9 @@ public interface InvoiceService {
 
   public Invoices saveInvoiceService(Invoices invoices);
 
-  public Invoices updateInvoiceService(Invoices invoices);
+  public Invoices updateInvoiceService(Invoices invoices, boolean status);
+
+  public Invoices getInvoiceById(int id);
+
+  Invoices findByAccountIdAndMonth(int accountId, String month);
 }

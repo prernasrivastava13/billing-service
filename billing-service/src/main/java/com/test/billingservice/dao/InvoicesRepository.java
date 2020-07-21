@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface InvoicesRepository
-    extends JpaRepository<Invoices, Integer>, QuerydslPredicateExecutor<Invoices> {}
+    extends JpaRepository<Invoices, Integer>, QuerydslPredicateExecutor<Invoices> {
+
+  //    Invoices findByAccountIdAndMonth(int accountId, String month);
+}

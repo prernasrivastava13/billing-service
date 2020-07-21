@@ -2,10 +2,12 @@ package com.test.billingservice.service;
 
 import com.test.billingservice.dao.AccountApplicationMappingRepository;
 import com.test.billingservice.entity.AccountApplicationMapping;
+import com.test.billingservice.predicate.AccountApplicationMappingPredicate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -28,11 +30,15 @@ public class AccountApplicationMappingServiceImpl implements AccountApplicationM
   @Override
   public AccountApplicationMapping getAccountApplicationMappingByAccountIdAndApplicationId(
       int accountId, int applicationId) {
-    AccountApplicationMapping accountApplicationMapping =
-        accountApplicationMappingRepository.getAccountApplicationMappingByAccountIdAndApplicationId(
-            accountId, applicationId);
-    if (accountApplicationMapping != null) {
-      return accountApplicationMapping;
+    Optional<AccountApplicationMapping> accountApplicationMapping =
+        accountApplicationMappingRepository.findOne(
+            AccountApplicationMappingPredicate
+                .getAccountApplicationMappingByAccountIdAndApplicationId(accountId, applicationId));
+    //
+    // accountApplicationMappingRepository.getAccountApplicationMappingByAccountIdAndApplicationId(
+    //            accountId, applicationId);
+    if (accountApplicationMapping.isPresent()) {
+      return accountApplicationMapping.get();
     }
     log.info("Error finding Account Application Mapping!");
     return null;

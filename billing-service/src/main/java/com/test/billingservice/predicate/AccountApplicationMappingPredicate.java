@@ -14,4 +14,12 @@ public class AccountApplicationMappingPredicate {
         .eq(accountId)
         .and(QAccountApplicationMapping.accountApplicationMapping.applicationId.eq(applicationId));
   }
+
+  public static Predicate getAccountApplicationMappingByAccountIdAndApplicationId(
+      int accountId, int applicationId) {
+    return QAccountApplicationMapping.accountApplicationMapping
+        .accountId
+        .eq(accountId)
+        .and(QAccountApplicationMapping.accountApplicationMapping.applicationId.eq(applicationId));
+  }
 }

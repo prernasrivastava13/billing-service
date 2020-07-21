@@ -3,12 +3,11 @@ package com.test.billingservice.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.Date;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,6 +17,7 @@ import java.util.Date;
 public class MonthlyUsage {
 
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private int id;
 
@@ -33,9 +33,11 @@ public class MonthlyUsage {
   @Column(name = "invoice_id")
   private int invoiceId;
 
-  @Column(name = "created_at")
-  private Date createdAt;
+  @CreatedDate
+  @Column(name = "created_at", updatable = false)
+  private LocalDateTime createdAt = LocalDateTime.now();
 
+  @LastModifiedDate
   @Column(name = "updated_at")
-  private Date updatedAt;
+  private LocalDateTime updatedAt = LocalDateTime.now();
 }
